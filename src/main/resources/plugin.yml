@@ -1,0 +1,4 @@
+name: Dispenser-Mining-Paper
+version: '${version}'
+main: org.dispensermining.dispenserminingpaper.Dispenser_Mining_Paper
+api-version: '1.16'
