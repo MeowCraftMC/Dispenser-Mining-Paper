@@ -1,0 +1,5 @@
+
+[Bb]uild/
+.gradle
+
+*.jar
