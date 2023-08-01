@@ -1,5 +1,6 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
+import io.github.elihuso.dispenseminingpaper.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,9 +54,16 @@ public class BlockBreakListener implements Listener {
                     if (tool.equals(inv.getItem(i))) {
                         if (!tool.getItemMeta().isUnbreakable()) {
                             ItemMeta meta = tool.getItemMeta();
+                            int durability = 0;
+                            if (meta.hasEnchant(Enchantment.DURABILITY)) {
+                                durability = meta.getEnchantLevel(Enchantment.DURABILITY);
+                            }
                             if (meta instanceof Damageable) {
                                 Damageable damageable = (Damageable) meta;
-                                damageable.setDamage(damageable.getDamage() + 1);
+                                if (durability == 0)
+                                    damageable.setDamage(damageable.getDamage() + 1);
+                                else if (Utils.getRand(durability) == 0)
+                                    damageable.setDamage(damageable.getDamage() + 1);
                                 tool.setItemMeta(meta);
                                 inv.setItem(i, tool);
                                 break;
