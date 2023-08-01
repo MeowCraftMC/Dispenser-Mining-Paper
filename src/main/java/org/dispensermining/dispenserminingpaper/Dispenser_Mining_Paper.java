@@ -36,7 +36,7 @@ public final class Dispenser_Mining_Paper extends JavaPlugin implements Listener
         if (event.getBlock().getType().equals(Material.DISPENSER)) {
             //getLogger().log(Level.INFO, "DETACTED");
             String strItem = event.getItem().getType().name();
-            if (strItem.contains("AXE")/*axe and pickaxe*/ || strItem.contains("_SHOVEL") || strItem.contains("_HOE")) {
+            if (strItem.contains("AXE")/*axe and pickaxe*/ || strItem.contains("_SHOVEL") || strItem.contains("_HOE") || strItem.contains("_SWORD")) {
                 if (!event.isCancelled()) {
                     event.setCancelled(true);
                     BlockFace facing = ((Directional)(event.getBlock().getState().getBlockData())).getFacing();

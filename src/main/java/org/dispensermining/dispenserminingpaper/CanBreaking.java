@@ -71,6 +71,8 @@ public class CanBreaking {
     };
 
     public static boolean canBreaking(ItemStack item, Block block) {
+        if (item.getType().name().contains("_SWORD"))
+            return block.getType().equals(Material.COBWEB);
         if (item.getType().equals(Material.DIAMOND_PICKAXE)|| item.getType().equals(Material.NETHERITE_PICKAXE))
             return true;
         else if (item.getType().equals(Material.IRON_PICKAXE) || item.getType().equals(Material.GOLDEN_PICKAXE)) {
