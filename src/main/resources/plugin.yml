@@ -1,4 +1,4 @@
 name: Dispenser-Mining-Paper
 version: '${version}'
-main: io.github.elihuso.dispenseminingpaper.Dispenser_Mining_Paper
+main: io.github.elihuso.dispenseminingpaper.DispenserMiningPaper
 api-version: '1.16'
