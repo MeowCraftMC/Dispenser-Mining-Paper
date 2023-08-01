@@ -56,23 +56,8 @@ public class BlockBreakListener implements Listener {
 
                 for (int i = 0; i < inv.getSize(); i++) {
                     if (tool.equals(inv.getItem(i))) {
-                        if (!tool.getItemMeta().isUnbreakable()) {
-                            ItemMeta meta = tool.getItemMeta();
-                            int durability = 0;
-                            if (meta.hasEnchant(Enchantment.DURABILITY)) {
-                                durability = meta.getEnchantLevel(Enchantment.DURABILITY);
-                            }
-                            if (meta instanceof Damageable) {
-                                Damageable damageable = (Damageable) meta;
-                                if (durability == 0)
-                                    damageable.setDamage(damageable.getDamage() + 1);
-                                else if (Utils.getRand(durability) == 0)
-                                    damageable.setDamage(damageable.getDamage() + 1);
-                                tool.setItemMeta(meta);
-                                inv.setItem(i, tool);
-                                break;
-                            }
-                        }
+                        inv.setItem(i, Utils.Damage(tool));
+                        break;
                     }
                 }
             }, 1);
