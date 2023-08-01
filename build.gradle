@@ -3,7 +3,7 @@ plugins {
     id 'com.rikonardo.papermake' version '1.0.6'
 }
 
-group = 'org.dispensermining'
+group = 'io.github.elihuso'
 version = '0.0.2-SNAPSHOT'
 
 repositories {
