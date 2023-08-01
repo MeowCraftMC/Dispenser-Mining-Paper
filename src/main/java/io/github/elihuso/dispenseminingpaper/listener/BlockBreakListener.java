@@ -35,6 +35,10 @@ public class BlockBreakListener implements Listener {
 
         Block dispenserBlock = event.getBlock();
         ItemStack tool = event.getItem();
+        String toolname = tool.getType().name();
+
+        if (!(toolname.contains("_AXE") || toolname.contains("_PICKAXE") || toolname.contains("_SHOVEL") || toolname.contains("_HOE") || toolname.contains("_SWORD")))
+            return;
 
         Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
         if (target.getType().isAir()) {
