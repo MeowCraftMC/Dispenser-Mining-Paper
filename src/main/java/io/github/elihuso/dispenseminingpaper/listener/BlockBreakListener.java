@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -35,7 +36,10 @@ public class BlockBreakListener implements Listener {
         ItemStack tool = event.getItem();
 
         Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
-        if (!target.getDrops(tool).isEmpty()) {
+        if (target.getType().isAir()) {
+            event.setCancelled(true);
+        }
+        else if (!target.getDrops(tool).isEmpty()) {
             event.setCancelled(true);
 
             target.breakNaturally(tool, true);
