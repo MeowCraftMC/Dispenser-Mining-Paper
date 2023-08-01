@@ -2,6 +2,8 @@ package org.dispensermining.dispenserminingpaper;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
@@ -33,12 +35,15 @@ public final class Dispenser_Mining_Paper extends JavaPlugin implements Listener
         //getLogger().log(Level.INFO, event.getBlock().toString());
         if (event.getBlock().getType().equals(Material.DISPENSER)) {
             //getLogger().log(Level.INFO, "DETACTED");
-            if (event.getItem().getType().name().contains("PICKAXE")) {
+            String strItem = event.getItem().getType().name();
+            if (strItem.contains("AXE")/*axe and pickaxe*/ || strItem.contains("_SHOVEL") || strItem.contains("_HOE")) {
                 if (!event.isCancelled()) {
                     event.setCancelled(true);
                     BlockFace facing = ((Directional)(event.getBlock().getState().getBlockData())).getFacing();
-                    //getLogger().log(Level.INFO, facing.name());
-                    event.getBlock().getRelative(facing).getLocation().getBlock().breakNaturally(event.getItem());
+                    Block block = event.getBlock().getRelative(facing).getLocation().getBlock();
+                    if (CanBreaking.canBreaking(event.getItem(), block)) {
+                        block.breakNaturally(event.getItem());
+                    }
                 }
             }
         }
