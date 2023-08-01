@@ -25,6 +25,10 @@ public class BlockPlaceListener implements Listener {
         this.plugin = plugin;
     }
 
+    Material[] TreeDirt = {
+            Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.FARMLAND
+    };
+
     @EventHandler
     public void onBlockDropItem(BlockDispenseEvent event) {
         if (!event.getBlock().getType().equals(Material.DROPPER)) {
@@ -40,6 +44,7 @@ public class BlockPlaceListener implements Listener {
 
         if (item.getType().isBlock()) {
             Block target = dropperBlock.getRelative(((Directional) dropperBlock.getBlockData()).getFacing());
+            Block base = target.getRelative(0, -1, 0);
             if (target.getType().isAir()) {
 
                 if (item.hasItemMeta()) {
@@ -49,7 +54,24 @@ public class BlockPlaceListener implements Listener {
                     }
                 }
 
-                event.setCancelled(true);
+                if (item.getType().name().contains("_SAPLING")) {
+                    for (Material v : TreeDirt) {
+                        if (v.equals(base.getType())) {
+                            event.setCancelled(true);
+                            break;
+                        }
+                    }
+                }
+                else if (item.getType().name().contains("_MUSHROOM")) {
+                    if (!base.getType().isAir())
+                        event.setCancelled(true);
+                }
+                else {
+                    event.setCancelled(true);
+                }
+
+                if (!event.isCancelled())
+                    return;
 
                 target.setType(item.getType());
                 target.setBlockData(item.getType().createBlockData());
