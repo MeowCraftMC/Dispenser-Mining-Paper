@@ -81,4 +81,46 @@ public class BlockPlantListener implements Listener {
             }
         }, 1);
     }
+
+    @EventHandler
+    public void OnPlantCocoa(BlockDispenseEvent event) {
+        if (event.isCancelled())
+            return;
+        if (!event.getBlock().getType().equals(Material.DISPENSER))
+            return;
+
+        Block dispenserBlock = event.getBlock();
+        ItemStack item = event.getItem();
+
+        BlockFace facing = ((Directional)dispenserBlock.getBlockData()).getFacing();
+        Block target = dispenserBlock.getRelative(facing);
+        Block base = target.getRelative(facing);
+
+        if (!item.getType().equals(Material.COCOA_BEANS))
+            return;
+        if (!target.getType().isAir())
+            return;
+        if (!base.getType().equals(Material.JUNGLE_LOG))
+            return;
+
+        event.setCancelled(true);
+
+        target.setType(Material.COCOA);
+        target.setBlockData(Material.COCOA.createBlockData());
+        target.getState().update();
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
+            Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
+            Inventory inventory = dispenser.getInventory();
+
+            for (int i = 0; i < inventory.getSize(); ++i) {
+                ItemStack invItem = inventory.getItem(i);
+                if (invItem.isSimilar(event.getItem())) {
+                    invItem.setAmount(invItem.getAmount() - 1);
+                    inventory.setItem(i, invItem);
+                    break;
+                }
+            }
+        }, 1);
+    }
 }
