@@ -10,3 +10,4 @@ Use your dispenser to mining...or planting(?)
 - [x] Planting crops(dispenser)
 - [x] Planting trees(dropper)
 - [ ] Planting cocoa
+- [ ] Ripening with bone meal
