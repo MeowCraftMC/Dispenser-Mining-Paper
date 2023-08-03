@@ -5,12 +5,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.CocoaPlant;
 import org.bukkit.plugin.Plugin;
 
 public class BlockPlantListener implements Listener {
@@ -106,8 +109,9 @@ public class BlockPlantListener implements Listener {
         event.setCancelled(true);
 
         target.setType(Material.COCOA);
-        target.setBlockData(Material.COCOA.createBlockData());
-        target.getState().update();
+        Cocoa c = (Cocoa)Material.COCOA.createBlockData();
+        c.setFacing(facing);
+        target.setBlockData(c);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
             Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
