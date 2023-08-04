@@ -7,7 +7,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dropper;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -27,6 +29,10 @@ public class BlockPlaceListener implements Listener {
 
     Material[] TreeDirt = {
             Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.FARMLAND
+    };
+
+    Material[] SugarCaneDirts = {
+            Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.GRASS_BLOCK, Material.SAND, Material.RED_SAND, Material.SUGAR_CANE
     };
 
     @EventHandler
@@ -65,6 +71,36 @@ public class BlockPlaceListener implements Listener {
                 else if (item.getType().name().contains("_MUSHROOM")) {
                     if (!base.getType().isAir())
                         event.setCancelled(true);
+                }
+                else if (item.getType().equals(Material.SUGAR_CANE)) {
+                    for (Material v : SugarCaneDirts) {
+                        if (v.equals(base.getType())) {
+                            Block[] roundblock = {
+                                    base.getRelative(1, 0, 0),
+                                    base.getRelative(0, 0, 1),
+                                    base.getRelative(-1, 0, 0),
+                                    base.getRelative(0, 0, -1)
+                            };
+                            for (Block u : roundblock) {
+                                if ((u.getBlockData() instanceof Waterlogged)) {
+                                    if (((Waterlogged)u.getBlockData()).isWaterlogged()) {
+                                        event.setCancelled(true);
+                                        break;
+                                    }
+                                }
+                                if (u.getType().equals(Material.WATER)) {
+                                    event.setCancelled(true);
+                                    break;
+                                }
+                                if (u.getType().equals(Material.FROSTED_ICE)) {
+                                    event.setCancelled(true);
+                                    break;
+                                }
+                            }
+                        }
+                        if (event.isCancelled())
+                            break;
+                    }
                 }
                 else {
                     event.setCancelled(true);
