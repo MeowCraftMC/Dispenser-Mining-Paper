@@ -1,9 +1,6 @@
 package io.github.elihuso.dispenseminingpaper;
 
-import io.github.elihuso.dispenseminingpaper.listener.BlockBreakListener;
-import io.github.elihuso.dispenseminingpaper.listener.BlockPlaceListener;
-import io.github.elihuso.dispenseminingpaper.listener.BlockPlantListener;
-import io.github.elihuso.dispenseminingpaper.listener.BlockProcessListener;
+import io.github.elihuso.dispenseminingpaper.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +16,7 @@ public final class DispenserMiningPaper extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new BlockBoneMealListener(this), this);
         getLogger().log(Level.FINE, "Dispenser Mining Plugin Enabled");
     }
 
