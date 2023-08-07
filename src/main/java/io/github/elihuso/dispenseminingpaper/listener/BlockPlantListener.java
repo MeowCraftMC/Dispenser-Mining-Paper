@@ -25,7 +25,8 @@ public class BlockPlantListener implements Listener {
             {Material.CARROT,Material.CARROTS},
             {Material.POTATO, Material.POTATOES},
             {Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM},
-            {Material.MELON_SEEDS, Material.MELON_STEM}
+            {Material.MELON_SEEDS, Material.MELON_STEM},
+            {Material.SWEET_BERRIES, Material.SWEET_BERRY_BUSH}
     };
     @EventHandler
     public void OnPlant(BlockDispenseEvent event) {
