@@ -32,7 +32,7 @@ public class BlockPlaceListener implements Listener {
     };
 
     Material[] SugarCaneDirts = {
-            Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.GRASS_BLOCK, Material.SAND, Material.RED_SAND, Material.SUGAR_CANE
+            Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.GRASS_BLOCK, Material.SAND, Material.RED_SAND
     };
 
     @EventHandler
@@ -73,33 +73,37 @@ public class BlockPlaceListener implements Listener {
                         event.setCancelled(true);
                 }
                 else if (item.getType().equals(Material.SUGAR_CANE)) {
-                    for (Material v : SugarCaneDirts) {
-                        if (v.equals(base.getType())) {
-                            Block[] roundblock = {
-                                    base.getRelative(1, 0, 0),
-                                    base.getRelative(0, 0, 1),
-                                    base.getRelative(-1, 0, 0),
-                                    base.getRelative(0, 0, -1)
-                            };
-                            for (Block u : roundblock) {
-                                if ((u.getBlockData() instanceof Waterlogged)) {
-                                    if (((Waterlogged)u.getBlockData()).isWaterlogged()) {
+                    if (base.getType().equals(Material.SUGAR_CANE))
+                        event.setCancelled(true);
+                    else {
+                        for (Material v : SugarCaneDirts) {
+                            if (v.equals(base.getType())) {
+                                Block[] roundblock = {
+                                        base.getRelative(1, 0, 0),
+                                        base.getRelative(0, 0, 1),
+                                        base.getRelative(-1, 0, 0),
+                                        base.getRelative(0, 0, -1)
+                                };
+                                for (Block u : roundblock) {
+                                    if ((u.getBlockData() instanceof Waterlogged)) {
+                                        if (((Waterlogged)u.getBlockData()).isWaterlogged()) {
+                                            event.setCancelled(true);
+                                            break;
+                                        }
+                                    }
+                                    if (u.getType().equals(Material.WATER)) {
+                                        event.setCancelled(true);
+                                        break;
+                                    }
+                                    if (u.getType().equals(Material.FROSTED_ICE)) {
                                         event.setCancelled(true);
                                         break;
                                     }
                                 }
-                                if (u.getType().equals(Material.WATER)) {
-                                    event.setCancelled(true);
-                                    break;
-                                }
-                                if (u.getType().equals(Material.FROSTED_ICE)) {
-                                    event.setCancelled(true);
-                                    break;
-                                }
                             }
+                            if (event.isCancelled())
+                                break;
                         }
-                        if (event.isCancelled())
-                            break;
                     }
                 }
                 else {
