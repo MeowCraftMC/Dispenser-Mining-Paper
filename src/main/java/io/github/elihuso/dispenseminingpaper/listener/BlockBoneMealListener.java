@@ -15,7 +15,10 @@ import org.bukkit.plugin.Plugin;
 
 public class BlockBoneMealListener implements Listener {
     private final Plugin plugin;
-    public BlockBoneMealListener(Plugin plugin) {this.plugin = plugin;}
+
+    public BlockBoneMealListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void OnDispenseBoneMeal(BlockDispenseEvent event) {
@@ -25,7 +28,7 @@ public class BlockBoneMealListener implements Listener {
             return;
 
         Block dispenserBlock = event.getBlock();
-        Block target = dispenserBlock.getRelative(((Directional)dispenserBlock.getBlockData()).getFacing());
+        Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
         Block base = target.getRelative(0, -1, 0);
         ItemStack item = event.getItem();
 
@@ -40,7 +43,7 @@ public class BlockBoneMealListener implements Listener {
         base.applyBoneMeal(BlockFace.UP);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dispenser dispenser = (Dispenser)dispenserBlock.getState();
+            Dispenser dispenser = (Dispenser) dispenserBlock.getState();
             Inventory inventory = dispenser.getInventory();
 
             for (int i = 0; i < inventory.getSize(); ++i) {

@@ -16,11 +16,15 @@ import org.bukkit.plugin.Plugin;
 
 public class BlockPlantListener implements Listener {
     private final Plugin plugin;
-    public BlockPlantListener(Plugin plugin) {this.plugin = plugin;}
+
+    public BlockPlantListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     static Material[][] plants = {
             {Material.WHEAT_SEEDS, Material.WHEAT},
             {Material.BEETROOT_SEEDS, Material.BEETROOTS},
-            {Material.CARROT,Material.CARROTS},
+            {Material.CARROT, Material.CARROTS},
             {Material.POTATO, Material.POTATOES},
             {Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM},
             {Material.MELON_SEEDS, Material.MELON_STEM}
@@ -71,7 +75,7 @@ public class BlockPlantListener implements Listener {
         ItemStack item = event.getItem();
         boolean isselected = false;
 
-        for(Material[] v : plants) {
+        for (Material[] v : plants) {
             if (v[0].equals(item.getType())) {
                 isselected = true;
                 break;
@@ -80,7 +84,7 @@ public class BlockPlantListener implements Listener {
         if (!isselected)
             return;
 
-        Block target = dispenserBlock.getRelative(((Directional)dispenserBlock.getBlockData()).getFacing());
+        Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
         Block base = target.getRelative(0, -1, 0);
 
         if (!target.getType().isAir())
@@ -91,7 +95,7 @@ public class BlockPlantListener implements Listener {
         event.setCancelled(true);
 
         isselected = false;
-        for(Material[] v : plants) {
+        for (Material[] v : plants) {
             if (v[0].equals(item.getType())) {
                 target.setType(v[1]);
                 target.setBlockData(v[1].createBlockData());
@@ -103,8 +107,8 @@ public class BlockPlantListener implements Listener {
         if (!isselected)
             return;
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
-            Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
             Inventory inventory = dispenser.getInventory();
 
             for (int i = 0; i < inventory.getSize(); ++i) {
@@ -128,7 +132,7 @@ public class BlockPlantListener implements Listener {
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
 
-        BlockFace facing = ((Directional)dispenserBlock.getBlockData()).getFacing();
+        BlockFace facing = ((Directional) dispenserBlock.getBlockData()).getFacing();
         Block target = dispenserBlock.getRelative(facing);
         Block base = target.getRelative(facing);
 
@@ -142,12 +146,12 @@ public class BlockPlantListener implements Listener {
         event.setCancelled(true);
 
         target.setType(Material.COCOA);
-        Cocoa c = (Cocoa)Material.COCOA.createBlockData();
+        Cocoa c = (Cocoa) Material.COCOA.createBlockData();
         c.setFacing(facing);
         target.setBlockData(c);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()->{
-            Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
             Inventory inventory = dispenser.getInventory();
 
             for (int i = 0; i < inventory.getSize(); ++i) {
@@ -171,7 +175,7 @@ public class BlockPlantListener implements Listener {
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
 
-        BlockFace facing = ((Directional)dispenserBlock.getBlockData()).getFacing();
+        BlockFace facing = ((Directional) dispenserBlock.getBlockData()).getFacing();
         Block target = dispenserBlock.getRelative(facing);
         Block base = target.getRelative(0, -1, 0);
 
@@ -193,7 +197,7 @@ public class BlockPlantListener implements Listener {
         target.getState().update();
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
+            Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
             Inventory inventory = dispenser.getInventory();
 
             for (int i = 0; i < inventory.getSize(); ++i) {
@@ -218,7 +222,7 @@ public class BlockPlantListener implements Listener {
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
 
-        BlockFace facing = ((Directional)dispenserBlock.getBlockData()).getFacing();
+        BlockFace facing = ((Directional) dispenserBlock.getBlockData()).getFacing();
         Block target = dispenserBlock.getRelative(facing);
 
         if (!target.getType().equals(Material.FLOWER_POT))
@@ -237,7 +241,7 @@ public class BlockPlantListener implements Listener {
             return;
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dispenser dispenser = (Dispenser)(dispenserBlock.getState());
+            Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
             Inventory inventory = dispenser.getInventory();
 
             for (int i = 0; i < inventory.getSize(); ++i) {

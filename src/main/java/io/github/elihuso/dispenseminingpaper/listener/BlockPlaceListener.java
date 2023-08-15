@@ -86,7 +86,7 @@ public class BlockPlaceListener implements Listener {
                                 };
                                 for (Block u : roundblock) {
                                     if ((u.getBlockData() instanceof Waterlogged)) {
-                                        if (((Waterlogged)u.getBlockData()).isWaterlogged()) {
+                                        if (((Waterlogged) u.getBlockData()).isWaterlogged()) {
                                             event.setCancelled(true);
                                             break;
                                         }

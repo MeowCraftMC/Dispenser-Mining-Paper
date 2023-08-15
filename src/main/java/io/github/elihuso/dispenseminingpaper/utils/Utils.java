@@ -9,7 +9,7 @@ import java.lang.Math;
 
 public class Utils {
     public static int getRand(int _max) {
-        return (int)(Math.random() * _max);
+        return (int) (Math.random() * _max);
     }
 
     public static ItemStack Damage(ItemStack _item) {

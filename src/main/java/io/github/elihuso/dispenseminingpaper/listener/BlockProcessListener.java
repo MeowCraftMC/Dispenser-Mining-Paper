@@ -18,7 +18,11 @@ import org.bukkit.plugin.Plugin;
 
 public class BlockProcessListener implements Listener {
     private final Plugin plugin;
-    public BlockProcessListener(Plugin plugin) {this.plugin = plugin;}
+
+    public BlockProcessListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     static Material[][] Wood = {
             {Material.OAK_LOG, Material.STRIPPED_OAK_LOG},
             {Material.SPRUCE_LOG, Material.STRIPPED_SPRUCE_LOG},
@@ -42,7 +46,7 @@ public class BlockProcessListener implements Listener {
 
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
-        Block target = dropperBlock.getRelative(((Directional)dropperBlock.getBlockData()).getFacing());
+        Block target = dropperBlock.getRelative(((Directional) dropperBlock.getBlockData()).getFacing());
 
         if (!item.getType().name().contains("_AXE"))
             return;
@@ -57,7 +61,7 @@ public class BlockProcessListener implements Listener {
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dropper dropper = (Dropper)(dropperBlock.getState());
+            Dropper dropper = (Dropper) (dropperBlock.getState());
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
@@ -76,7 +80,7 @@ public class BlockProcessListener implements Listener {
 
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
-        Block target = dropperBlock.getRelative(((Directional)dropperBlock.getBlockData()).getFacing());
+        Block target = dropperBlock.getRelative(((Directional) dropperBlock.getBlockData()).getFacing());
         Block base = target.getRelative(0, -1, 0);
 
         if (!item.getType().name().contains("_SHOVEL"))
@@ -109,7 +113,7 @@ public class BlockProcessListener implements Listener {
             return;
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dropper dropper = (Dropper)(dropperBlock.getState());
+            Dropper dropper = (Dropper) (dropperBlock.getState());
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
@@ -128,7 +132,7 @@ public class BlockProcessListener implements Listener {
 
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
-        Block target = dropperBlock.getRelative(((Directional)dropperBlock.getBlockData()).getFacing());
+        Block target = dropperBlock.getRelative(((Directional) dropperBlock.getBlockData()).getFacing());
         Block base = target.getRelative(0, -1, 0);
 
         if (!item.getType().name().contains("_HOE"))
@@ -161,7 +165,7 @@ public class BlockProcessListener implements Listener {
             return;
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dropper dropper = (Dropper)(dropperBlock.getState());
+            Dropper dropper = (Dropper) (dropperBlock.getState());
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
