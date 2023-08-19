@@ -72,6 +72,18 @@ public class BlockPlaceListener implements Listener {
                     if (!base.getType().isAir())
                         event.setCancelled(true);
                 }
+                else if (item.getType().equals(Material.BAMBOO)) {
+                    if (base.getType().equals(Material.BAMBOO))
+                        event.setCancelled(true);
+                    else {
+                        for (Material v : SugarCaneDirts) {
+                            if (v.equals(base.getType())) {
+                                event.setCancelled(true);
+                                break;
+                            }
+                        }
+                    }
+                }
                 else if (item.getType().equals(Material.SUGAR_CANE)) {
                     if (base.getType().equals(Material.SUGAR_CANE))
                         event.setCancelled(true);
