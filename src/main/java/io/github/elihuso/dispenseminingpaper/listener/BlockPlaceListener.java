@@ -125,7 +125,7 @@ public class BlockPlaceListener implements Listener {
                 if (!event.isCancelled())
                     return;
 
-                target.setType(item.getType());
+                target.setType((item.getType().equals(Material.BAMBOO) && (!base.getType().equals(Material.BAMBOO))) ? Material.BAMBOO_SAPLING : item.getType());
                 target.setBlockData(item.getType().createBlockData());
                 target.getState().update();
 
