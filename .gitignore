@@ -4,7 +4,6 @@
 [Oo]bj/
 .gradle
 
-*.jar
-
 .vscode
 .vs
+.idea
