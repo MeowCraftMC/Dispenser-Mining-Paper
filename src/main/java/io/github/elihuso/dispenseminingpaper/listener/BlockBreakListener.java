@@ -1,5 +1,6 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
+import io.github.elihuso.dispenseminingpaper.DispenserMiningPaper;
 import io.github.elihuso.dispenseminingpaper.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -63,6 +64,9 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onDispenseEnchantedGoldenApple(BlockDispenseEvent event) {
+        if (!DispenserMiningPaper.localConfigs.breakBedrocks)
+            return;
+
         if (!event.getBlock().getType().equals(Material.DISPENSER)) {
             return;
         }

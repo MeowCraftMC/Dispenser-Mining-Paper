@@ -1,5 +1,6 @@
 package io.github.elihuso.dispenseminingpaper.utils;
 
+import io.github.elihuso.dispenseminingpaper.DispenserMiningPaper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -26,7 +27,18 @@ public class Utils {
             else if (Utils.getRand(durability + 1) == 0)
                 damageable.setDamage(damageable.getDamage() + 1);
             _item.setItemMeta(itemMeta);
+            if (!DispenserMiningPaper.localConfigs.allowNegativeTools)
+                if (_item.getType().getMaxDurability() <= damageable.getDamage())
+                    _item.setAmount(0);
         }
         return _item;
+    }
+
+    public static class LocalConfigs {
+        public static boolean enabled = true;
+        public static boolean allowNegativeTools = true;
+        public static boolean plantCrops = true;
+        public static boolean breakBedrocks = true;
+        public static boolean processByDropper = true;
     }
 }
