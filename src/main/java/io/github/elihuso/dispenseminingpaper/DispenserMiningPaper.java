@@ -21,6 +21,7 @@ public final class DispenserMiningPaper extends JavaPlugin {
             "breakBedrocks",
             "processByDropper"
     };
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -33,7 +34,8 @@ public final class DispenserMiningPaper extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockBoneMealListener(this), this);
         if (localConfigs.plantCrops) Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
-        if (localConfigs.processByDropper) Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
+        if (localConfigs.processByDropper)
+            Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
         getLogger().log(Level.FINE, "Dispenser Mining Plugin Enabled");
     }
 
