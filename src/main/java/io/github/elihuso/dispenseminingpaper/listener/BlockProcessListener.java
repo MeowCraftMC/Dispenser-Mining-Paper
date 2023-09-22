@@ -65,7 +65,7 @@ public class BlockProcessListener implements Listener {
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
-                    inventory.setItem(i, Utils.Damage(item));
+                    inventory.setItem(i, Utils.Damage(item, dropperBlock));
                 }
             }
         }, 1);
@@ -117,7 +117,7 @@ public class BlockProcessListener implements Listener {
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
-                    inventory.setItem(i, Utils.Damage(item));
+                    inventory.setItem(i, Utils.Damage(item, dropperBlock));
                 }
             }
         }, 1);
@@ -169,7 +169,7 @@ public class BlockProcessListener implements Listener {
             Inventory inventory = dropper.getInventory();
             for (int i = 0; i < inventory.getSize(); ++i) {
                 if (item.equals(inventory.getItem(i))) {
-                    inventory.setItem(i, Utils.Damage(item));
+                    inventory.setItem(i, Utils.Damage(item, dropperBlock));
                 }
             }
         }, 1);

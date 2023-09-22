@@ -1,11 +1,13 @@
 package io.github.elihuso.dispenseminingpaper.utils;
 
-import io.github.elihuso.dispenseminingpaper.DispenserMiningPaper;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.lang.Math;
 
 public class Utils {
@@ -13,7 +15,7 @@ public class Utils {
         return (int) (Math.random() * _max);
     }
 
-    public static ItemStack Damage(ItemStack _item) {
+    public static ItemStack Damage(ItemStack _item, @Nullable Block _block) {
         if (_item.getItemMeta().isUnbreakable())
             return _item;
         ItemMeta itemMeta = _item.getItemMeta();
@@ -27,11 +29,17 @@ public class Utils {
             else if (Utils.getRand(durability + 1) == 0)
                 damageable.setDamage(damageable.getDamage() + 1);
             _item.setItemMeta(itemMeta);
-            if (!DispenserMiningPaper.localConfigs.allowNegativeTools)
-                if (_item.getType().getMaxDurability() <= damageable.getDamage())
+            if (!LocalConfigs.allowNegativeTools)
+                if (_item.getType().getMaxDurability() <= damageable.getDamage()) {
                     _item.setAmount(0);
+                    _block.getWorld().playSound(_block.getLocation(), Sound.ENTITY_ITEM_BREAK, 24, 0);
+                }
         }
         return _item;
+    }
+
+    public static ItemStack Damage(ItemStack _item) {
+        return Damage(_item, null);
     }
 
     public static class LocalConfigs {

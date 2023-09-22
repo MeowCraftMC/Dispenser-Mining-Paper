@@ -12,7 +12,6 @@ import java.util.logging.Level;
 
 public final class DispenserMiningPaper extends JavaPlugin {
 
-    public static Utils.LocalConfigs localConfigs;
     String configFile = this.getDataFolder() + "/config";
     String[] paths = {
             "enabled",
@@ -28,13 +27,13 @@ public final class DispenserMiningPaper extends JavaPlugin {
         for (String v : paths) {
             loadSpecificConfig(configFile, v);
         }
-        if (!localConfigs.enabled)
+        if (!Utils.LocalConfigs.enabled)
             return;
         Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockBoneMealListener(this), this);
-        if (localConfigs.plantCrops) Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
-        if (localConfigs.processByDropper)
+        if (Utils.LocalConfigs.plantCrops) Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
+        if (Utils.LocalConfigs.processByDropper)
             Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
         getLogger().log(Level.FINE, "Dispenser Mining Plugin Enabled");
     }
@@ -63,19 +62,19 @@ public final class DispenserMiningPaper extends JavaPlugin {
         boolean value = config.getBoolean(path);
         switch (path) {
             case "enabled":
-                localConfigs.enabled = value;
+                Utils.LocalConfigs.enabled = value;
                 break;
             case "allowNegativeTools":
-                localConfigs.allowNegativeTools = value;
+                Utils.LocalConfigs.allowNegativeTools = value;
                 break;
             case "plantCrops":
-                localConfigs.plantCrops = value;
+                Utils.LocalConfigs.plantCrops = value;
                 break;
             case "breakBedrocks":
-                localConfigs.breakBedrocks = value;
+                Utils.LocalConfigs.breakBedrocks = value;
                 break;
             case "processByDropper":
-                localConfigs.processByDropper = value;
+                Utils.LocalConfigs.processByDropper = value;
                 break;
             default:
         }
