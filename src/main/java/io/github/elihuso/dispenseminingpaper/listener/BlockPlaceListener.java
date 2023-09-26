@@ -112,6 +112,10 @@ public class BlockPlaceListener implements Listener {
                         }
                     }
                 }
+                else if (item.getType().equals(Material.NETHER_WART)) {
+                    if (base.getType().equals(Material.SOUL_SAND))
+                        event.setCancelled(true);
+                }
                 else {
                     event.setCancelled(true);
                 }
