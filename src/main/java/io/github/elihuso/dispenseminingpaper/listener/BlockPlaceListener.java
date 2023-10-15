@@ -21,12 +21,20 @@ public class BlockPlaceListener implements Listener {
         this.plugin = plugin;
     }
 
-    Material[] TreeDirt = {
+    Material[] Dirt = {
             Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.FARMLAND
     };
 
     Material[] SugarCaneDirts = {
             Material.DIRT, Material.COARSE_DIRT, Material.MYCELIUM, Material.PODZOL, Material.GRASS_BLOCK, Material.SAND, Material.RED_SAND
+    };
+
+    Material[] Flowers = {
+            Material.DANDELION, Material.POPPY, Material.BLUE_ORCHID, Material.ALLIUM, Material.AZURE_BLUET, Material.RED_TULIP, Material.ORANGE_TULIP, Material.WHITE_TULIP, Material.PINK_TULIP, Material.OXEYE_DAISY, Material.LILY_OF_THE_VALLEY, Material.CORNFLOWER, Material.WITHER_ROSE, Material.FERN, Material.DEAD_BUSH
+    };
+
+    Material[] Sand = {
+            Material.SAND, Material.RED_SAND
     };
 
     @EventHandler
@@ -55,7 +63,7 @@ public class BlockPlaceListener implements Listener {
                 }
 
                 if (item.getType().name().contains("_SAPLING")) {
-                    for (Material v : TreeDirt) {
+                    for (Material v : Dirt) {
                         if (v.equals(base.getType())) {
                             event.setCancelled(true);
                             break;
@@ -116,8 +124,35 @@ public class BlockPlaceListener implements Listener {
                     if (base.getType().equals(Material.SOUL_SAND))
                         event.setCancelled(true);
                 }
+                else if (item.getType().equals(Material.CACTUS)) {
+                    if (base.getType().equals(Material.CACTUS))
+                        event.setCancelled(true);
+                    else {
+                        for (var v : Sand) {
+                            if (v.equals(base.getType())) {
+                                event.setCancelled(true);
+                                break;
+                            }
+                        }
+                    }
+                }
                 else {
-                    event.setCancelled(true);
+                    boolean q = true;
+                    for (var v : Flowers) {
+                        if (v.equals(item.getType())) {
+                            q = false;
+                            for (var u : Dirt) {
+                                if (base.getType().equals(u)) {
+                                    event.setCancelled(true);
+                                    break;
+                                }
+                            }
+                        }
+                        if (!q)
+                            break;
+                    }
+                    if (q)
+                        event.setCancelled(true);
                 }
 
                 if (!event.isCancelled())
