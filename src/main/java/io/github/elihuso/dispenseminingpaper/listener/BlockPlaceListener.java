@@ -1,18 +1,13 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
 import io.github.elihuso.dispenseminingpaper.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Dropper;
 import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Waterlogged;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.plugin.Plugin;
 
 public class BlockPlaceListener implements Listener {
@@ -40,28 +35,15 @@ public class BlockPlaceListener implements Listener {
             Block base = target.getRelative(0, -1, 0);
             if (target.getType().isAir()) {
 
-                if (Utils.CouldPlace(item, base))
-                    event.setCancelled(true);
-                else
+                if (!Utils.CouldPlace(item, base)) {
                     return;
+                }
 
                 target.setType((item.getType().equals(Material.BAMBOO) && (!base.getType().equals(Material.BAMBOO))) ? Material.BAMBOO_SAPLING : item.getType());
                 target.setBlockData(item.getType().createBlockData());
                 target.getState().update();
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                    Dropper dropper = (Dropper) (dropperBlock.getState());
-                    Inventory inv = dropper.getInventory();
-
-                    for (int i = 0; i < inv.getSize(); i++) {
-                        ItemStack invItem = inv.getItem(i);
-                        if (item.isSimilar(invItem) && invItem != null) {
-                            invItem.setAmount(invItem.getAmount() - 1);
-                            inv.setItem(i, invItem);
-                            break;
-                        }
-                    }
-                }, 1);
+                event.setItem(new ItemStack(Material.AIR));
             }
         }
     }

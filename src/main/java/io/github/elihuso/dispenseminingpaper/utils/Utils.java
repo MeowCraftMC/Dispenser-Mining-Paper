@@ -14,35 +14,36 @@ import javax.annotation.Nullable;
 import java.lang.Math;
 
 public class Utils {
-    public static int getRand(int _max) {
-        return (int) (Math.random() * _max);
+    public static int getRand(int max) {
+        return (int) (Math.random() * max);
     }
 
-    public static ItemStack Damage(ItemStack _item, @Nullable Block _block) {
-        if (_item.getItemMeta().isUnbreakable())
-            return _item;
-        ItemMeta itemMeta = _item.getItemMeta();
+    public static ItemStack damageTool(ItemStack item, @Nullable Block block) {
+        if (item.getItemMeta().isUnbreakable()) {
+            return item;
+        }
+        ItemMeta itemMeta = item.getItemMeta();
+
         int durability = 0;
-        if (itemMeta.hasEnchant(Enchantment.DURABILITY))
+        if (itemMeta.hasEnchant(Enchantment.DURABILITY)) {
             durability = itemMeta.getEnchantLevel(Enchantment.DURABILITY);
+        }
         if (itemMeta instanceof Damageable) {
             Damageable damageable = (Damageable) itemMeta;
-            if (durability == 0)
+            if (durability == 0) {
                 damageable.setDamage(damageable.getDamage() + 1);
-            else if (Utils.getRand(durability + 1) == 0)
+            } else if (Utils.getRand(durability + 1) == 0) {
                 damageable.setDamage(damageable.getDamage() + 1);
-            _item.setItemMeta(itemMeta);
-            if (!LocalConfigs.allowNegativeTools)
-                if (_item.getType().getMaxDurability() <= damageable.getDamage()) {
-                    _item.setAmount(0);
-                    _block.getWorld().playSound(_block.getLocation(), Sound.ENTITY_ITEM_BREAK, 24, 0);
+            }
+            item.setItemMeta(itemMeta);
+            if (!LocalConfigs.allowNegativeTools) {
+                if (item.getType().getMaxDurability() <= damageable.getDamage()) {
+                    item.setAmount(0);
+                    block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ITEM_BREAK, 24, 0);
                 }
+            }
         }
-        return _item;
-    }
-
-    public static ItemStack Damage(ItemStack _item) {
-        return Damage(_item, null);
+        return item;
     }
 
     public static class LocalConfigs {
@@ -72,7 +73,7 @@ public class Utils {
     public static boolean CouldPlace(ItemStack item, Block base) {
         if (item.hasItemMeta()) {
             if (item.getItemMeta() instanceof BlockStateMeta) {
-                // Todo: qyl27: block state specific code.
+                // qyl27: To never do.
                 return false;
             }
         }
@@ -83,11 +84,9 @@ public class Utils {
                     return true;
                 }
             }
-        }
-        else if (item.getType().name().contains("_MUSHROOM")) {
+        } else if (item.getType().name().contains("_MUSHROOM")) {
             return !base.getType().isAir();
-        }
-        else if (item.getType().equals(Material.BAMBOO)) {
+        } else if (item.getType().equals(Material.BAMBOO)) {
             if (base.getType().equals(Material.BAMBOO))
                 return true;
             else {
@@ -97,8 +96,7 @@ public class Utils {
                     }
                 }
             }
-        }
-        else if (item.getType().equals(Material.SUGAR_CANE)) {
+        } else if (item.getType().equals(Material.SUGAR_CANE)) {
             if (base.getType().equals(Material.SUGAR_CANE))
                 return true;
             else {
@@ -126,11 +124,9 @@ public class Utils {
                     }
                 }
             }
-        }
-        else if (item.getType().equals(Material.NETHER_WART)) {
+        } else if (item.getType().equals(Material.NETHER_WART)) {
             return base.getType().equals(Material.SOUL_SAND);
-        }
-        else if (item.getType().equals(Material.CACTUS)) {
+        } else if (item.getType().equals(Material.CACTUS)) {
             if (base.getType().equals(Material.CACTUS))
                 return true;
             else {
@@ -140,8 +136,7 @@ public class Utils {
                     }
                 }
             }
-        }
-        else {
+        } else {
             boolean q = true;
             for (var v : Flowers) {
                 if (v.equals(item.getType())) {

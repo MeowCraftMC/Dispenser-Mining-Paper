@@ -1,15 +1,13 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
+import io.github.elihuso.dispenseminingpaper.utils.DispenserHelper;
 import io.github.elihuso.dispenseminingpaper.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
@@ -32,39 +30,33 @@ public class BlockBreakListener implements Listener {
 
         Block dispenserBlock = event.getBlock();
         ItemStack tool = event.getItem();
-        String toolname = tool.getType().name();
+        String toolName = tool.getType().name();
 
-        if (!(toolname.contains("_AXE") || toolname.contains("_PICKAXE") || toolname.contains("_SHOVEL") || toolname.contains("_HOE") || toolname.contains("_SWORD")))
+        if (!(toolName.contains("_AXE")
+                || toolName.contains("_PICKAXE")
+                || toolName.contains("_SHOVEL")
+                || toolName.contains("_HOE")
+                || toolName.contains("_SWORD"))) {
             return;
+        }
 
         Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
-        if (target.getType().isAir()) {
-            event.setCancelled(true);
-        }
-        else if (!target.getDrops(tool).isEmpty()) {
-            event.setCancelled(true);
+        if (!target.getType().isAir()) {
+            event.setItem(new ItemStack(Material.AIR));
 
-            target.breakNaturally(tool, true);
+            if (!target.getDrops(tool).isEmpty()) {
+                target.breakNaturally(tool, true);
 
-            // qyl27: Use scheduler to prevent cancel with empty container.
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
-                Inventory inv = dispenser.getInventory();
-
-                for (int i = 0; i < inv.getSize(); i++) {
-                    if (tool.equals(inv.getItem(i))) {
-                        inv.setItem(i, Utils.Damage(tool, dispenserBlock));
-                        break;
-                    }
-                }
-            }, 1);
+                DispenserHelper.damageItem(dispenserBlock, tool);
+            }
         }
     }
 
     @EventHandler
     public void onDispenseEnchantedGoldenApple(BlockDispenseEvent event) {
-        if (!Utils.LocalConfigs.breakBedrocks)
+        if (!Utils.LocalConfigs.breakBedrocks) {
             return;
+        }
 
         if (!event.getBlock().getType().equals(Material.DISPENSER)) {
             return;
@@ -77,25 +69,17 @@ public class BlockBreakListener implements Listener {
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
 
-        if (!item.getType().equals(Material.ENCHANTED_GOLDEN_APPLE))
+        if (!item.getType().equals(Material.ENCHANTED_GOLDEN_APPLE)) {
             return;
+        }
 
         Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());
-        if (!target.getType().equals(Material.BEDROCK))
+        if (!target.getType().equals(Material.BEDROCK)) {
             return;
+        }
+
+        event.setItem(new ItemStack(Material.AIR));
+
         target.setType(Material.AIR);//Break Bedrock but no drop.
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            Dispenser dispenser = (Dispenser) (dispenserBlock.getState());
-            Inventory inventory = dispenser.getInventory();
-
-            for (int i = 0; i < inventory.getSize(); ++i) {
-                if (item.equals(inventory.getItem(i))) {
-                    ItemStack invItem = inventory.getItem(i);
-                    invItem.setAmount(invItem.getAmount() - 1);
-                    inventory.setItem(i, invItem);
-                }
-            }
-        }, 1);
     }
 }
