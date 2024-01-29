@@ -1,5 +1,6 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
+import io.github.elihuso.dispenseminingpaper.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -71,6 +72,10 @@ public class BlockPlantListener implements Listener {
         if (!event.getBlock().getType().equals(Material.DISPENSER))
             return;
 
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
+
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
         boolean isselected = false;
@@ -129,6 +134,10 @@ public class BlockPlantListener implements Listener {
         if (!event.getBlock().getType().equals(Material.DISPENSER))
             return;
 
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
+
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
 
@@ -171,6 +180,10 @@ public class BlockPlantListener implements Listener {
             return;
         if (!event.getBlock().getType().equals(Material.DISPENSER))
             return;
+
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
 
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();
@@ -218,6 +231,10 @@ public class BlockPlantListener implements Listener {
             return;
         if (!event.getBlock().getType().equals(Material.DISPENSER))
             return;
+
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
 
         Block dispenserBlock = event.getBlock();
         ItemStack item = event.getItem();

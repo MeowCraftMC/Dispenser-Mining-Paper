@@ -30,6 +30,10 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
+        if (!Utils.LocalConfigs.allowBreak) {
+            return;
+        }
+
         Block dispenserBlock = event.getBlock();
         ItemStack tool = event.getItem();
         String toolname = tool.getType().name();
@@ -71,6 +75,10 @@ public class BlockBreakListener implements Listener {
         }
 
         if (event.isCancelled()) {
+            return;
+        }
+
+        if (!Utils.LocalConfigs.allowBreak) {
             return;
         }
 

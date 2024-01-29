@@ -32,6 +32,10 @@ public class BlockPlaceListener implements Listener {
             return;
         }
 
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
+
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
 

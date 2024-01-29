@@ -44,6 +44,10 @@ public class BlockProcessListener implements Listener {
         if (!event.getBlock().getType().equals(Material.DROPPER))
             return;
 
+        if (!Utils.LocalConfigs.allowProcess) {
+            return;
+        }
+
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
         Block target = dropperBlock.getRelative(((Directional) dropperBlock.getBlockData()).getFacing());
@@ -77,6 +81,10 @@ public class BlockProcessListener implements Listener {
             return;
         if (!event.getBlock().getType().equals(Material.DROPPER))
             return;
+
+        if (!Utils.LocalConfigs.allowProcess) {
+            return;
+        }
 
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();
@@ -129,6 +137,10 @@ public class BlockProcessListener implements Listener {
             return;
         if (!event.getBlock().getType().equals(Material.DROPPER))
             return;
+
+        if (!Utils.LocalConfigs.allowProcess) {
+            return;
+        }
 
         Block dropperBlock = event.getBlock();
         ItemStack item = event.getItem();

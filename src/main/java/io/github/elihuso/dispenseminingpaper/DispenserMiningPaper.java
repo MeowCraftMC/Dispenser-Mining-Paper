@@ -18,7 +18,10 @@ public final class DispenserMiningPaper extends JavaPlugin {
             "allowNegativeTools",
             "plantCrops",
             "breakBedrocks",
-            "processByDropper"
+            "processByDropper",
+            "allowBreak",
+            "allowPlace",
+            "allowProcess"
     };
 
     @Override
@@ -76,7 +79,15 @@ public final class DispenserMiningPaper extends JavaPlugin {
             case "processByDropper":
                 Utils.LocalConfigs.processByDropper = value;
                 break;
-            default:
+            case "allowBreak":
+                Utils.LocalConfigs.allowBreak = value;
+                break;
+            case "allowPlace":
+                Utils.LocalConfigs.allowPlace = value;
+                break;
+            case "allowProcess":
+                Utils.LocalConfigs.allowProcess = value;
+                break;
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.github.elihuso.dispenseminingpaper.listener;
 
+import io.github.elihuso.dispenseminingpaper.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,6 +27,10 @@ public class BlockBoneMealListener implements Listener {
             return;
         if (!event.getBlock().getType().equals(Material.DISPENSER))
             return;
+
+        if (!Utils.LocalConfigs.allowPlace) {
+            return;
+        }
 
         Block dispenserBlock = event.getBlock();
         Block target = dispenserBlock.getRelative(((Directional) dispenserBlock.getBlockData()).getFacing());

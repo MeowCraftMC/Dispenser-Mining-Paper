@@ -48,9 +48,12 @@ public class Utils {
     public static class LocalConfigs {
         public static boolean enabled = true;
         public static boolean allowNegativeTools = true;
-        public static boolean plantCrops = true;
-        public static boolean breakBedrocks = true;
+        public static boolean plantCrops = false;
+        public static boolean breakBedrocks = false;
         public static boolean processByDropper = true;
+        public static boolean allowPlace = false;
+        public static boolean allowBreak = true;
+        public static boolean allowProcess = false;
     }
 
     private static final Material[] Dirt = {
