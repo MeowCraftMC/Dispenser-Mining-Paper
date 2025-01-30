@@ -1,4 +1,7 @@
-name: Dispenser-Mining-Paper
+name: MiningDispenser
 version: '${version}'
 main: io.github.elihuso.dispenseminingpaper.DispenserMiningPaper
+authors:
+  - qyl27
+  - Elihuso
 api-version: '1.21'

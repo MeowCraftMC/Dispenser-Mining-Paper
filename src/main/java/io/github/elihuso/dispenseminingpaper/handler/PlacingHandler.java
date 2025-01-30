@@ -3,6 +3,8 @@ package io.github.elihuso.dispenseminingpaper.handler;
 import io.github.elihuso.dispenseminingpaper.config.ConfigManager;
 import io.github.elihuso.dispenseminingpaper.data.DummyItemData;
 import io.github.elihuso.dispenseminingpaper.data.MiningDispenserData;
+import io.github.elihuso.dispenseminingpaper.handler.place.IPlacer;
+import io.github.elihuso.dispenseminingpaper.handler.place.NormalBlockPlacer;
 import org.bukkit.Material;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
@@ -10,10 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 
-public class BreakingHandler implements Listener {
+public class PlacingHandler implements Listener {
+    private static final IPlacer NORMAL_PLACER = new NormalBlockPlacer();
+
     private final ConfigManager configManager;
 
-    public BreakingHandler(ConfigManager configManager) {
+    public PlacingHandler(ConfigManager configManager) {
         this.configManager = configManager;
     }
 
@@ -37,29 +41,28 @@ public class BreakingHandler implements Listener {
             return;
         }
 
-        if (data.getType() != MiningDispenserData.Type.BREAKER) {
+        if (data.getType() != MiningDispenserData.Type.PLACER) {
             return;
         }
 
-        if (!configManager.breakingEnabled()) {
+        if (!configManager.placingEnabled()) {
             return;
         }
 
         var front = block.getRelative(((Directional) block.getBlockData()).getFacing());
         var item = event.getItem();
 
-        if (front.isEmpty()) {
+        if (!front.isEmpty()) {
             event.setCancelled(true);
             return;
         }
 
-        var result = front.breakNaturally(item, true, true);
-        if (!result) {
+        if (NORMAL_PLACER.canPlace(dispenser, item, front)) {
+            NORMAL_PLACER.place(dispenser, item, front);
+            DummyItemData.set(item, new DummyItemData(block.getLocation(), false, true));
+            event.setItem(item);
+        } else {
             event.setCancelled(true);
-            return;
         }
-
-        DummyItemData.set(item, new DummyItemData(block.getLocation(), true, false));
-        event.setItem(item);
     }
 }

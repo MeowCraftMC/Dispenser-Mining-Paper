@@ -3,6 +3,7 @@ package io.github.elihuso.dispenseminingpaper;
 import io.github.elihuso.dispenseminingpaper.config.ConfigManager;
 import io.github.elihuso.dispenseminingpaper.handler.BreakingHandler;
 import io.github.elihuso.dispenseminingpaper.handler.DummyHandler;
+import io.github.elihuso.dispenseminingpaper.handler.PlacingHandler;
 import io.github.elihuso.dispenseminingpaper.utility.ItemStackHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,30 +22,15 @@ public final class DispenserMiningPaper extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
         addRecipes();
 
         getServer().getPluginManager().registerEvents(new DummyHandler(this), this);
         getServer().getPluginManager().registerEvents(new BreakingHandler(configManager), this);
-
-//        for (String v : paths) {
-//            loadSpecificConfig(configFile, v);
-//        }
-//        if (!Utils.LocalConfigs.enabled)
-//            return;
-//        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
-//        Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
-//        Bukkit.getPluginManager().registerEvents(new BlockBoneMealListener(this), this);
-//        if (Utils.LocalConfigs.plantCrops) Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
-//        if (Utils.LocalConfigs.processByDropper)
-//            Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
-//        getLogger().log(Level.FINE, "Dispenser Mining Plugin Enabled");
+        getServer().getPluginManager().registerEvents(new PlacingHandler(configManager), this);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
         removeRecipes();
     }
 
