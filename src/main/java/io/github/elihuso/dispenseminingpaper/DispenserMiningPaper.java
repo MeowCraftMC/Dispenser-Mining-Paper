@@ -1,93 +1,69 @@
 package io.github.elihuso.dispenseminingpaper;
 
-import io.github.elihuso.dispenseminingpaper.listener.*;
-import io.github.elihuso.dispenseminingpaper.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import io.github.elihuso.dispenseminingpaper.config.ConfigManager;
+import io.github.elihuso.dispenseminingpaper.handler.BreakingHandler;
+import io.github.elihuso.dispenseminingpaper.handler.DummyHandler;
+import io.github.elihuso.dispenseminingpaper.handler.PlacingHandler;
+import io.github.elihuso.dispenseminingpaper.utility.ItemStackHelper;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Material;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.logging.Level;
+import static io.github.elihuso.dispenseminingpaper.PluginConstants.modLoc;
 
+@Setter
+@Getter
 public final class DispenserMiningPaper extends JavaPlugin {
 
-    String configFile = this.getDataFolder() + "/config";
-    String[] paths = {
-            "enabled",
-            "allowNegativeTools",
-            "plantCrops",
-            "breakBedrocks",
-            "processByDropper",
-            "allowBreak",
-            "allowPlace",
-            "allowProcess"
-    };
+    private ConfigManager configManager = new ConfigManager(this);
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        for (String v : paths) {
-            loadSpecificConfig(configFile, v);
-        }
-        if (!Utils.LocalConfigs.enabled)
-            return;
-        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new BlockBoneMealListener(this), this);
-        if (Utils.LocalConfigs.plantCrops) Bukkit.getPluginManager().registerEvents(new BlockPlantListener(this), this);
-        if (Utils.LocalConfigs.processByDropper)
-            Bukkit.getPluginManager().registerEvents(new BlockProcessListener(this), this);
-        getLogger().log(Level.FINE, "Dispenser Mining Plugin Enabled");
+        addRecipes();
+
+        getServer().getPluginManager().registerEvents(new DummyHandler(this), this);
+        getServer().getPluginManager().registerEvents(new BreakingHandler(configManager), this);
+        getServer().getPluginManager().registerEvents(new PlacingHandler(configManager), this);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        removeRecipes();
     }
 
-    public void loadSpecificConfig(@NotNull String file, @NotNull String path) {
-        FileConfiguration config = new YamlConfiguration();
-        try {
-            config.load(file);
-        } catch (Exception ex) {
-            for (String v : paths) {
-                config.set(v, true);
-            }
-            try {
-                config.save(file);
-            } catch (Exception e) {
-                getLogger().log(Level.WARNING, "Failed to load/save config file");
-            }
+    private void addRecipes() {
+        {
+            var recipe = new ShapedRecipe(modLoc("breaker"), ItemStackHelper.createBreaker())
+                    .shape("CCC",
+                            "CPC",
+                            "CRC")
+                    .setIngredient('C', Material.COBBLESTONE)
+                    .setIngredient('P', Material.DIAMOND_PICKAXE)
+                    .setIngredient('R', Material.REDSTONE);
+            recipe.setCategory(CraftingBookCategory.REDSTONE);
+            recipe.setGroup("mining_dispenser");
+            getServer().addRecipe(recipe, true);
         }
-        if (!config.isSet(path))
-            return;
-        boolean value = config.getBoolean(path);
-        switch (path) {
-            case "enabled":
-                Utils.LocalConfigs.enabled = value;
-                break;
-            case "allowNegativeTools":
-                Utils.LocalConfigs.allowNegativeTools = value;
-                break;
-            case "plantCrops":
-                Utils.LocalConfigs.plantCrops = value;
-                break;
-            case "breakBedrocks":
-                Utils.LocalConfigs.breakBedrocks = value;
-                break;
-            case "processByDropper":
-                Utils.LocalConfigs.processByDropper = value;
-                break;
-            case "allowBreak":
-                Utils.LocalConfigs.allowBreak = value;
-                break;
-            case "allowPlace":
-                Utils.LocalConfigs.allowPlace = value;
-                break;
-            case "allowProcess":
-                Utils.LocalConfigs.allowProcess = value;
-                break;
+
+        {
+            var recipe = new ShapedRecipe(modLoc("placer"), ItemStackHelper.createPlacer())
+                    .shape("CCC",
+                            "CPC",
+                            "CRC")
+                    .setIngredient('C', Material.COBBLESTONE)
+                    .setIngredient('P', Material.FISHING_ROD)
+                    .setIngredient('R', Material.REDSTONE);
+            recipe.setCategory(CraftingBookCategory.REDSTONE);
+            recipe.setGroup("mining_dispenser");
+            getServer().addRecipe(recipe, true);
         }
+    }
+
+    private void removeRecipes() {
+        getServer().removeRecipe(modLoc("breaker"));
+        getServer().removeRecipe(modLoc("placer"));
     }
 }
