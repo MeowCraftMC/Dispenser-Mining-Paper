@@ -35,26 +35,16 @@ public class MiningDispenserData {
         return DataHelper.get(stack, KEY_DATA_TYPE, SERIALIZER);
     }
 
-    public static void set(ItemStack stack, @Nullable MiningDispenserData data) {
+    public static void set(@Nullable ItemStack stack, @Nullable MiningDispenserData data) {
         DataHelper.set(stack, KEY_DATA_TYPE, SERIALIZER, data);
     }
 
     public static @Nullable MiningDispenserData get(TileState state) {
-        var container = state.getPersistentDataContainer();
-        if (!container.has(KEY_DATA_TYPE)) {
-            return null;
-        }
-
-        return container.get(KEY_DATA_TYPE, SERIALIZER);
+        return DataHelper.get(state, KEY_DATA_TYPE, SERIALIZER);
     }
 
     public static void set(TileState state, @Nullable MiningDispenserData data) {
-        var container = state.getPersistentDataContainer();
-        if (data == null) {
-            container.remove(KEY_DATA_TYPE);
-            return;
-        }
-        container.set(KEY_DATA_TYPE, SERIALIZER, data);
+        DataHelper.set(state, KEY_DATA_TYPE, SERIALIZER, data);
     }
 
     private static class Serializer implements PersistentDataType<PersistentDataContainer, MiningDispenserData> {

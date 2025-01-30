@@ -16,14 +16,18 @@ public class DataHelper {
         return container.get(id, type);
     }
 
-    public static <P, C> void set(ItemStack stack, NamespacedKey id, PersistentDataType<P, C> type, @Nullable C value) {
+    public static <P, C> void set(@Nullable ItemStack stack, NamespacedKey id, PersistentDataType<P, C> type, @Nullable C value) {
+        if (stack == null || stack.isEmpty()) {
+            return;
+        }
+
         var meta = stack.getItemMeta();
         var container = meta.getPersistentDataContainer();
         if (value == null) {
             container.remove(id);
-            return;
+        } else {
+            container.set(id, type, value);
         }
-        container.set(id, type, value);
         stack.setItemMeta(meta);
     }
 
@@ -40,8 +44,9 @@ public class DataHelper {
         var container = state.getPersistentDataContainer();
         if (value == null) {
             container.remove(id);
-            return;
+        } else {
+            container.set(id, type, value);
         }
-        container.set(id, type, value);
+        state.update();
     }
 }

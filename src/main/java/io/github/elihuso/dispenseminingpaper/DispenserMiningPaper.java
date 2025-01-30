@@ -25,7 +25,7 @@ public final class DispenserMiningPaper extends JavaPlugin {
 
         addRecipes();
 
-        getServer().getPluginManager().registerEvents(new DummyHandler(), this);
+        getServer().getPluginManager().registerEvents(new DummyHandler(this), this);
         getServer().getPluginManager().registerEvents(new BreakingHandler(configManager), this);
 
 //        for (String v : paths) {
@@ -51,9 +51,9 @@ public final class DispenserMiningPaper extends JavaPlugin {
     private void addRecipes() {
         {
             var recipe = new ShapedRecipe(modLoc("breaker"), ItemStackHelper.createBreaker())
-                    .shape("CCC")
-                    .shape("CPC")
-                    .shape("CRC")
+                    .shape("CCC",
+                            "CPC",
+                            "CRC")
                     .setIngredient('C', Material.COBBLESTONE)
                     .setIngredient('P', Material.DIAMOND_PICKAXE)
                     .setIngredient('R', Material.REDSTONE);
@@ -64,9 +64,9 @@ public final class DispenserMiningPaper extends JavaPlugin {
 
         {
             var recipe = new ShapedRecipe(modLoc("placer"), ItemStackHelper.createPlacer())
-                    .shape("CCC")
-                    .shape("CPC")
-                    .shape("CRC")
+                    .shape("CCC",
+                            "CPC",
+                            "CRC")
                     .setIngredient('C', Material.COBBLESTONE)
                     .setIngredient('P', Material.FISHING_ROD)
                     .setIngredient('R', Material.REDSTONE);
