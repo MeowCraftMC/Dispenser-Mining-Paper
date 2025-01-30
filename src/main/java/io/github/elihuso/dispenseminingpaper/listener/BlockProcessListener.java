@@ -98,8 +98,8 @@ public class BlockProcessListener implements Listener {
             for (Material v : Dirt) {
                 if (v.equals(target.getType())) {
                     event.setCancelled(true);
-                    target.setType(Material.GRASS_PATH);
-                    target.setBlockData(Material.GRASS_PATH.createBlockData());
+                    target.setType(Material.DIRT_PATH);
+                    target.setBlockData(Material.DIRT_PATH.createBlockData());
                     target.getState().update();
                     break;
                 }
@@ -109,8 +109,8 @@ public class BlockProcessListener implements Listener {
             for (Material v : Dirt) {
                 if (v.equals(base.getType())) {
                     event.setCancelled(true);
-                    base.setType(Material.GRASS_PATH);
-                    base.setBlockData(Material.GRASS_PATH.createBlockData());
+                    base.setType(Material.DIRT_PATH);
+                    base.setBlockData(Material.DIRT_PATH.createBlockData());
                     base.getState().update();
                     break;
                 }

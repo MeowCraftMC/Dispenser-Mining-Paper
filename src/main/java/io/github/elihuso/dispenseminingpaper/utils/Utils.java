@@ -23,8 +23,8 @@ public class Utils {
             return _item;
         ItemMeta itemMeta = _item.getItemMeta();
         int durability = 0;
-        if (itemMeta.hasEnchant(Enchantment.DURABILITY))
-            durability = itemMeta.getEnchantLevel(Enchantment.DURABILITY);
+        if (itemMeta.hasEnchant(Enchantment.UNBREAKING))
+            durability = itemMeta.getEnchantLevel(Enchantment.UNBREAKING);
         if (itemMeta instanceof Damageable) {
             Damageable damageable = (Damageable) itemMeta;
             if (durability == 0)
